@@ -6,7 +6,7 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: List[str], message: str,
+def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """
     This function will return a log message that is obfuscated
