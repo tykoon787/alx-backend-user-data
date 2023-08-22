@@ -4,7 +4,10 @@ This module defines a function that returns an obfuscated log message
 """
 import re
 import logging
+import os
+import mysql.connector
 from typing import List
+
 
 PII_FIELDS = ("email", "name", "ssn", "password", "phone")
 
@@ -67,3 +70,21 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Connects to a database"""
+    db_username = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.environ.get("PERSONAL_DATA_DB_NAME")
+
+    # Create a MySQL connection
+    connection = mysql.connector.connect(
+        user=db_username,
+        password=db_password,
+        host=db_host,
+        database=db_name
+    )
+
+    return connection
