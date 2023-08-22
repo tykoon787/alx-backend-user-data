@@ -89,3 +89,30 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
     return connection
+
+
+def main() -> None:
+    """ Main Function """
+    db_connection = get_db()
+    fields = "password,ip,ssn,name,email,last_login,user_agent"
+    columns = fields.split(',')
+    table = "users"
+    query = f'SELECT {fields} from {table};'
+    info_logger = get_logger()
+    with db_connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        # Map each pair
+        for row in rows:
+            record = map(
+                lambda x: '{}={}'.format(x[0], x[1]),
+                zip(columns, row),
+            )
+            msg = '{};'.format('; '.join(list(record)))
+            args = ("user_data", logging.INFO, None, None, msg, None, None)
+            log_record = logging.LogRecord(*args)
+            info_logger.handle(log_record)
+
+
+if __name__ == '__main__':
+    main()
