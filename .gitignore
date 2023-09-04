@@ -4,3 +4,4 @@
 0x01-Basic_authentication/bin
 0x01-Basic_authentication/lib/python3.8/site-packages
 0x01-Basic_authentication/share/python-wheels
+0x01-Basic_authentication/api/v1/__pycache__
